@@ -1,0 +1,28 @@
+# Build output
+/bin/
+/dist/
+
+# Go
+vendor/
+*.test
+*.out
+coverage.*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Run output / loot — never commit
+*.jsonl
+hits.txt
+*.har
+*.pcap
+
+# Local config / secrets
+.env
+*.local
+
+# Tool state
+.omo/

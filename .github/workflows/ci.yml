@@ -1,0 +1,54 @@
+# Continuous integration: build + vet + test on every push and PR.
+#
+# Runs on Linux only (matches the primary deployment target). The release
+# workflow handles the full cross-compile matrix.
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build + test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - name: verify modules
+        run: |
+          go mod download
+          go mod verify
+
+      - name: vet
+        run: go vet ./...
+
+      - name: build
+        run: go build -v ./...
+
+      - name: unit tests
+        # -race catches data races in the worker pool / sink code.
+        # -count=1 disables the test cache so flakes surface.
+        run: go test -race -count=1 -v ./...
+
+      - name: go install smoke
+        # Validates the `go install github.com/...@latest` path advertised
+        # in the README. If module path or main package layout breaks,
+        # this fails before any user notices.
+        run: |
+          go install ./cmd/joombrute
+          joombrute --help | head -5

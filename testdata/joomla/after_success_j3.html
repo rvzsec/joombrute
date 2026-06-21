@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf-8" />
+	<meta name="generator" content="Joomla! - Open Source Content Management" />
+	<title>Control Panel - j3Lab - Administration</title>
+	<link href="/administrator/templates/isis/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<link href="/administrator/templates/isis/css/template.css?18692eb1513d7d355ae2e6004a305697" rel="stylesheet" />
+	<script type="application/json" class="joomla-script-options new">{"js-privacy-check":{"plg_quickicon_privacycheck_url":"http:\/\/localhost:8310\/administrator\/index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC","plg_quickicon_privacycheck_ajax_url":"http:\/\/localhost:8310\/administrator\/index.php?option=com_privacy&task=getNumberUrgentRequests&8fff63dd5c7f846ddb84d5899f4670d3=1","plg_quickicon_privacycheck_text":{"NOREQUEST":"No Urgent Requests.","REQUESTFOUND":"Urgent Privacy Requests","REQUESTFOUND_MESSAGE":"Urgent Privacy Request(s) to manage.","REQUESTFOUND_BUTTON":"View Requests","ERROR":"Unknown requests ..."}},"csrf.token":"8fff63dd5c7f846ddb84d5899f4670d3","system.paths":{"root":"","base":"\/administrator"},"joomla.jtext":{"MOD_SAMPLEDATA_CONFIRM_START":"Proceeding will install a sample data set into your Joomla website. This process can't be reverted once done.","MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED":"This sample data set is already installed.","MOD_SAMPLEDATA_INVALID_RESPONSE":"There is an error in a sample data plugin. Response is invalid."}}</script>
+	<script src="/media/jui/js/jquery.min.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/jui/js/jquery-noconflict.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/jui/js/jquery-migrate.min.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/plg_system_stats/js/stats.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/plg_quickicon_joomlaupdate/js/jupdatecheck.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/plg_quickicon_extensionupdate/js/extensionupdatecheck.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/plg_quickicon_privacycheck/js/privacycheck.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/plg_quickicon_eos310/js/snooze.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/jui/js/bootstrap.min.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<script src="/media/mod_sampledata/js/sampledata-process.js"></script>
+	<script src="/media/system/js/core.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<!--[if lte IE 9]><script src="/media/system/js/polyfill.filter.js?18692eb1513d7d355ae2e6004a305697"></script><![endif]-->
+	<script src="/administrator/templates/isis/js/template.js?18692eb1513d7d355ae2e6004a305697"></script>
+	<!--[if lt IE 9]><script src="/media/jui/js/html5.js?18692eb1513d7d355ae2e6004a305697"></script><![endif]-->
+	<script>
+var plg_quickicon_joomlaupdate_url = 'http://localhost:8310/administrator/index.php?option=com_joomlaupdate';
+var plg_quickicon_joomlaupdate_ajax_url = 'http://localhost:8310/administrator/index.php?option=com_joomlaupdate&task=update.ajax&8fff63dd5c7f846ddb84d5899f4670d3=1';
+var plg_quickicon_jupdatecheck_jversion = '3.10.12'
+var plg_quickicon_joomlaupdate_text = {"UPTODATE" : "Joomla is up to date.","UPDATEFOUND": "Joomla <span class=\'label label-important\'>%s</span>, Update now!","UPDATEFOUND_MESSAGE": "Joomla <span class=\'label label-important\'>%s</span> is available:","UPDATEFOUND_BUTTON": "Update Now","ERROR": "Unknown Joomla...",};
+var plg_quickicon_joomlaupdate_img = {"UPTODATE" : "/administrator/templates/isis/images/header/icon-48-jupdate-uptodate.png","UPDATEFOUND": "/administrator/templates/isis/images/header/icon-48-jupdate-updatefound.png","ERROR": "/administrator/templates/isis/images/header/icon-48-deny.png",};var plg_quickicon_extensionupdate_url = 'http://localhost:8310/administrator/index.php?option=com_installer&view=update&task=update.find&8fff63dd5c7f846ddb84d5899f4670d3=1';
+var plg_quickicon_extensionupdate_ajax_url = 'http://localhost:8310/administrator/index.php?option=com_installer&view=update&task=update.ajax&8fff63dd5c7f846ddb84d5899f4670d3=1';
+var plg_quickicon_extensionupdate_text = {"UPTODATE" : "All extensions are up to date.","UPDATEFOUND": "Updates are available! <span class=\'label label-important\'>%s</span>","UPDATEFOUND_MESSAGE": "<span class=\'label label-important\'>%s</span> Extension Update(s) are available:","UPDATEFOUND_BUTTON": "View Updates","ERROR": "Unknown extensions ...",};jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); function initTooltips (event, container) { container = container || document;$(container).find(".hasTooltip").tooltip({"html": true,"container": "body"});} });
+	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata&8fff63dd5c7f846ddb84d5899f4670d3=1",
+		modSampledataIconProgress = "/media/jui/images/ajax-loader.gif";
+
+	</script>
+
+</head>
+<body class="admin com_cpanel view- layout- task- itemid-0" data-basepath="">
+<!-- Top Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+							<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="element-invisible">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+			
+			<!-- skip to content -->
+			<a class="element-invisible" href="#skiptarget">Skip to Main Content</a>
+
+			<a class="admin-logo " href="/administrator/index.php">
+				<span class="icon-joomla"></span>
+				<div class="element-invisible">
+					Control Panel				</div>
+			</a>
+
+			<a class="brand hidden-desktop hidden-tablet" href="http://localhost:8310/" title="Preview j3Lab" target="_blank">j3Lab				<span class="icon-out-2 small"></span></a>
+
+			<div class="nav-collapse collapse">
+				<ul id="menu" class="nav ">
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >System <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li><a class="no-dropdown menu-cpanel"  href="index.php" >Control Panel</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-config"  href="index.php?option=com_config" >Global Configuration</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-checkin"  href="index.php?option=com_checkin" >Global Check-in</a></li>
+<li><a class="no-dropdown menu-clear"  href="index.php?option=com_cache" >Clear Cache</a></li>
+<li><a class="no-dropdown menu-purge"  href="index.php?option=com_cache&amp;view=purge" >Clear Expired Cache</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-info"  href="index.php?option=com_admin&amp;view=sysinfo" >System Information</a></li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Users <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-user"  data-toggle="dropdown" href="index.php?option=com_users&amp;view=users" >Manage</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_users&amp;task=user.add" >Add New User</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-groups"  data-toggle="dropdown" href="index.php?option=com_users&amp;view=groups" >Groups</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_users&amp;task=group.add" >Add New Group</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-levels"  data-toggle="dropdown" href="index.php?option=com_users&amp;view=levels" >Access Levels</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_users&amp;task=level.add" >Add New Access Level</a></li>
+</ul>
+</li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-fields"  href="index.php?option=com_fields&amp;context=com_users.user" >Fields</a></li>
+<li><a class="no-dropdown menu-category"  href="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user" >Field Groups</a></li>
+<li class="divider"><span></span></li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-user-note"  data-toggle="dropdown" href="index.php?option=com_users&amp;view=notes" >User Notes</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_users&amp;task=note.add" >Add User Note</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-category"  data-toggle="dropdown" href="index.php?option=com_categories&amp;view=categories&amp;extension=com_users" >User Note Categories</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_categories&amp;task=category.add&amp;extension=com_users" >Add New Category</a></li>
+</ul>
+</li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-privacy"  href="index.php?option=com_privacy" >Privacy</a></li>
+<li><a class="no-dropdown menu-userlogs"  href="index.php?option=com_actionlogs" >User Actions Log</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-massmail"  href="index.php?option=com_users&amp;view=mail" >Mass Mail Users</a></li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Menus <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-menumgr"  data-toggle="dropdown" href="index.php?option=com_menus&amp;view=menus" >Manage</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_menus&amp;view=menu&amp;layout=edit" >Add New Menu</a></li>
+</ul>
+</li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-allmenu"  href="index.php?option=com_menus&amp;view=items&amp;menutype=" >All Menu Items</a></li>
+<li class="menuitem-group"><span>Site</span></li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-menu"  data-toggle="dropdown" href="index.php?option=com_menus&amp;view=items&amp;menutype=mainmenu" >Main Menu <span class="icon-home"></span></a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-menu"  href="index.php?option=com_menus&amp;view=item&amp;layout=edit&amp;menutype=mainmenu" >Add New Menu Item</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Content <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-article"  data-toggle="dropdown" href="index.php?option=com_content" >Articles</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_content&amp;task=article.add" >Add New Article</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-category"  data-toggle="dropdown" href="index.php?option=com_categories&amp;extension=com_content" >Categories</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newarticle"  href="index.php?option=com_categories&amp;task=category.add&amp;extension=com_content" >Add New Category</a></li>
+</ul>
+</li>
+<li><a class="no-dropdown menu-featured"  href="index.php?option=com_content&amp;view=featured" >Featured Articles</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-fields"  href="index.php?option=com_fields&amp;context=com_content.article" >Fields</a></li>
+<li><a class="no-dropdown menu-category"  href="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article" >Field Groups</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-media"  href="index.php?option=com_media" >Media</a></li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Components <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-banners"  data-toggle="dropdown" href="index.php?option=com_banners" >Banners</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-banners"  href="index.php?option=com_banners" >Banners</a></li>
+<li><a class="no-dropdown menu-banners-cat"  href="index.php?option=com_categories&amp;extension=com_banners" >Categories</a></li>
+<li><a class="no-dropdown menu-banners-clients"  href="index.php?option=com_banners&amp;view=clients" >Clients</a></li>
+<li><a class="no-dropdown menu-banners-tracks"  href="index.php?option=com_banners&amp;view=tracks" >Tracks</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-contact"  data-toggle="dropdown" href="index.php?option=com_contact" >Contacts</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-contact"  href="index.php?option=com_contact" >Contacts</a></li>
+<li><a class="no-dropdown menu-contact-cat"  href="index.php?option=com_categories&amp;extension=com_contact" >Categories</a></li>
+</ul>
+</li>
+<li><a class="no-dropdown menu-joomlaupdate"  href="index.php?option=com_joomlaupdate" >Joomla! Update</a></li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-messages"  data-toggle="dropdown" href="index.php?option=com_messages" >Messaging</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-messages-add"  href="index.php?option=com_messages&amp;task=message.add" >New Private Message</a></li>
+</ul>
+</li>
+<li><a class="no-dropdown menu-associations"  href="index.php?option=com_associations" >Multilingual Associations</a></li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-newsfeeds"  data-toggle="dropdown" href="index.php?option=com_newsfeeds" >News Feeds</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-newsfeeds"  href="index.php?option=com_newsfeeds" >Feeds</a></li>
+<li><a class="no-dropdown menu-newsfeeds-cat"  href="index.php?option=com_categories&amp;extension=com_newsfeeds" >Categories</a></li>
+</ul>
+</li>
+<li><a class="no-dropdown menu-postinstall"  href="index.php?option=com_postinstall" >Post-installation Messages</a></li>
+<li><a class="no-dropdown menu-redirect"  href="index.php?option=com_redirect" >Redirects</a></li>
+<li><a class="no-dropdown menu-search"  href="index.php?option=com_search" >Search</a></li>
+<li><a class="no-dropdown menu-finder"  href="index.php?option=com_finder" >Smart Search</a></li>
+<li><a class="no-dropdown menu-tags"  href="index.php?option=com_tags" >Tags</a></li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Extensions <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-install"  data-toggle="dropdown" href="index.php?option=com_installer&amp;view=manage" >Manage</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=install" >Install</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=update" >Update</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=manage" >Manage</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=discover" >Discover</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=database" >Database</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=warnings" >Warnings</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=languages" >Install Languages</a></li>
+<li><a class="no-dropdown menu-install"  href="index.php?option=com_installer&amp;view=updatesites" >Update Sites</a></li>
+</ul>
+</li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-module"  href="index.php?option=com_modules" >Modules</a></li>
+<li><a class="no-dropdown menu-plugin"  href="index.php?option=com_plugins" >Plugins</a></li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-themes"  data-toggle="dropdown" href="index.php?option=com_templates" >Templates</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-themes"  href="index.php?option=com_templates&amp;view=styles" >Styles</a></li>
+<li><a class="no-dropdown menu-themes"  href="index.php?option=com_templates&amp;view=templates" >Templates</a></li>
+</ul>
+</li>
+<li class="dropdown-submenu"><a class="dropdown-toggle menu-language"  data-toggle="dropdown" href="index.php?option=com_languages" >Language(s)</a><ul class="dropdown-menu menu-scrollable">
+<li><a class="no-dropdown menu-language"  href="index.php?option=com_languages&amp;view=installed" >Installed</a></li>
+<li><a class="no-dropdown menu-language"  href="index.php?option=com_languages&amp;view=languages" >Content Languages</a></li>
+<li><a class="no-dropdown menu-language"  href="index.php?option=com_languages&amp;view=overrides" >Overrides</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="dropdown"><a class="dropdown-toggle"  data-toggle="dropdown" href="#" >Help <span class="caret"></span></a><ul class="dropdown-menu scroll-menu">
+<li><a class="no-dropdown menu-help"  href="index.php?option=com_admin&amp;view=help" >Joomla! Help</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-help-forum"  href="https://forum.joomla.org" target="_blank">Official Support Forum</a></li>
+<li><a class="no-dropdown menu-help-forum"  href="index.php?option=com_admin&amp;view=help&amp;layout=langforum" target="_blank">Official Language Forums</a></li>
+<li><a class="no-dropdown menu-help-docs"  href="https://docs.joomla.org" target="_blank">Documentation Wiki</a></li>
+<li class="divider"><span></span></li>
+<li><a class="no-dropdown menu-help-jed"  href="https://extensions.joomla.org" target="_blank">Joomla! Extensions</a></li>
+<li><a class="no-dropdown menu-help-trans"  href="https://community.joomla.org/translations.html" target="_blank">Joomla! Translations</a></li>
+<li><a class="no-dropdown menu-help-jrd"  href="https://community.joomla.org/service-providers-directory/" target="_blank">Joomla! Resources</a></li>
+<li><a class="no-dropdown menu-help-community"  href="https://community.joomla.org" target="_blank">Community Portal</a></li>
+<li><a class="no-dropdown menu-help-security"  href="https://developer.joomla.org/security-centre.html" target="_blank">Security Centre</a></li>
+<li><a class="no-dropdown menu-help-dev"  href="https://developer.joomla.org" target="_blank">Developer Resources</a></li>
+<li><a class="no-dropdown menu-help-dev"  href="https://joomla.stackexchange.com" target="_blank">Stack Exchange</a></li>
+<li><a class="no-dropdown menu-help-shop"  href="https://community.joomla.org/the-joomla-shop.html" target="_blank">Joomla! Shop</a></li>
+</ul>
+</li>
+</ul>
+<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>
+				<ul class="nav nav-user pull-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-user"></span>
+							<span class="caret"></span>
+							<div class="element-invisible">
+								User Menu							</div>
+						</a>
+						<ul class="dropdown-menu">
+															<li>
+									<span>
+										<span class="icon-user"></span>
+										<strong>Administrator</strong>
+									</span>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="index.php?option=com_admin&amp;task=profile.edit&amp;id=700">Edit Account</a>
+								</li>
+								<li class="divider"></li>
+								<li class="">
+									<a href="/administrator/index.php?option=com_login&amp;task=logout&amp;8fff63dd5c7f846ddb84d5899f4670d3=1">Logout</a>
+								</li>
+													</ul>
+					</li>
+				</ul>
+				<a class="brand visible-desktop visible-tablet" href="http://localhost:8310/" title="Preview j3Lab" target="_blank">j3Lab					<span class="icon-out-2 small"></span></a>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+</nav>
+<!-- Header -->
+	<header class="header">
+		<div class="container-logo">
+			<img src="/administrator/templates/isis/images/logo.png" class="logo" alt="j3Lab" />
+		</div>
+		<div class="container-title">
+				<h1 class="page-title">
+	<span class="icon-home-2 cpanel" aria-hidden="true"></span>
+	Control Panel</h1>
+
+		</div>
+	</header>
+	<div style="margin-bottom: 20px">
+		<!-- target for skip to content link -->
+		<a id="skiptarget" class="element-invisible">Main content begins here</a>
+	</div>
+<!-- container-fluid -->
+<div class="container-fluid container-main">
+	<section id="content">
+		<!-- Begin Content -->
+		
+		<div class="row-fluid">
+							<div class="span12">
+										<div id="system-message-container">
+						<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<h4 class="alert-heading">Error</h4>
+											<div class="alert-message">We have detected that your server is using PHP 8.0.30 which is obsolete and no longer receives official security updates by its developers. Furthermore, we cannot recommend a newer PHP version because you are using an outdated Joomla! version. We recommend updating Joomla! and then following further PHP upgrade instructions.</div>
+											<div class="alert-message"><p>Support has ended for your version of Joomla 3.10. <a href="https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x" target="_blank" rel="noopener noreferrer">Migrate to Joomla 4</a> <span class="icon-new-tab"></span>as soon as possible.</p></div>
+												</div>
+			</div>
+
+					<div class="row-fluid">
+			<div class="span3">
+			<div class="cpanel-links">
+					<div class="sidebar-nav quick-icons">
+		<div class="j-links-groups">
+<h2 class="nav-header">Content</h2>
+<ul class="j-links-group nav nav-list">
+<li>
+	<a href="/administrator/index.php?option=com_content&amp;task=article.add">
+		<span class="icon-pencil-2" aria-hidden="true"></span> <span class="j-links-link">New Article</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_content">
+		<span class="icon-stack" aria-hidden="true"></span> <span class="j-links-link">Articles</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_categories&amp;extension=com_content">
+		<span class="icon-folder" aria-hidden="true"></span> <span class="j-links-link">Categories</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_media">
+		<span class="icon-pictures" aria-hidden="true"></span> <span class="j-links-link">Media</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">Structure</h2>
+<ul class="j-links-group nav nav-list">
+<li>
+	<a href="/administrator/index.php?option=com_menus">
+		<span class="icon-list-view" aria-hidden="true"></span> <span class="j-links-link">Menu(s)</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_modules">
+		<span class="icon-cube" aria-hidden="true"></span> <span class="j-links-link">Modules</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">Users</h2>
+<ul class="j-links-group nav nav-list">
+<li>
+	<a href="/administrator/index.php?option=com_users">
+		<span class="icon-users" aria-hidden="true"></span> <span class="j-links-link">Users</span>	</a>
+</li>
+<li id="plg_quickicon_privacycheck">
+	<a href="index.php?option=com_privacy&amp;view=requests&amp;filter[status]=1&amp;list[fullordering]=a.requested_at ASC">
+		<span class="icon-users" aria-hidden="true"></span> <span class="j-links-link">Checking requests ...</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">Configuration</h2>
+<ul class="j-links-group nav nav-list">
+<li>
+	<a href="/administrator/index.php?option=com_config">
+		<span class="icon-cog" aria-hidden="true"></span> <span class="j-links-link">Global</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_templates">
+		<span class="icon-eye" aria-hidden="true"></span> <span class="j-links-link">Templates</span>	</a>
+</li>
+<li>
+	<a href="/administrator/index.php?option=com_languages">
+		<span class="icon-comments-2" aria-hidden="true"></span> <span class="j-links-link">Language(s)</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">Extensions</h2>
+<ul class="j-links-group nav nav-list">
+<li>
+	<a href="/administrator/index.php?option=com_installer">
+		<span class="icon-download" aria-hidden="true"></span> <span class="j-links-link">Install Extensions</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">Maintenance</h2>
+<ul class="j-links-group nav nav-list">
+<li id="plg_quickicon_joomlaupdate">
+	<a href="index.php?option=com_joomlaupdate">
+		<span class="icon-joomla" aria-hidden="true"></span> <span class="j-links-link">Checking Joomla...</span>	</a>
+</li>
+<li id="plg_quickicon_extensionupdate">
+	<a href="index.php?option=com_installer&amp;view=update&amp;task=update.find&amp;8fff63dd5c7f846ddb84d5899f4670d3=1">
+		<span class="icon-asterisk" aria-hidden="true"></span> <span class="j-links-link">Checking extensions ...</span>	</a>
+</li>
+	</ul>
+<h2 class="nav-header">End Of Support</h2>
+<ul class="j-links-group nav nav-list">
+<li id="plg_quickicon_eos310">
+	<a href="https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x" target="_blank" rel="noopener noreferrer">
+		<span class="icon-minus-circle" aria-hidden="true"></span> <span class="j-links-link">Support has ended for Joomla 3.10 <span class="icon-new-tab"></span></span>	</a>
+</li>
+	</ul>
+</div>
+	</div>
+			</div>
+		</div>
+		<div class="span9">
+					<div class="row-fluid">
+				<div class="alert alert-info">
+					<h3>
+						You have post-installation messages					</h3>
+					<p>
+						There are important post-installation messages that require your attention.					</p>
+					<p>
+						This information area won't appear when you have hidden all the messages.					</p>
+					<p>
+						<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
+							Read Messages						</a>
+					</p>
+				</div>
+			</div>
+				<div class="row-fluid">
+			<div class="well well-small"><h2 class="module-title nav-header">Sample Data</h2><div class="sampledata-container">
+			<div class="row-striped">
+							<div class="row-fluid sampledata-blog">
+					<div class="span4">
+						<a href="#" onclick="sampledataApply(this)" data-type="blog" data-steps="3">
+							<strong class="row-title">
+								<span class="icon-broadcast" aria-hidden="true"> </span>
+								Blog Sample data							</strong>
+						</a>
+					</div>
+					<div class="span6">
+						<small>
+							Sample data which will set up a blog site.<br>If the site is multilingual, the data will be tagged to the active backend language.						</small>
+					</div>
+				</div>
+				<!-- Progress bar -->
+				<div class="row-fluid sampledata-progress-blog hide">
+					<progress class="span12"></progress>
+				</div>
+				<!-- Progress messages -->
+				<div class="row-fluid sampledata-progress-blog hide">
+					<ul class="unstyled"></ul>
+				</div>
+					</div>
+	</div>
+</div></div><div class="row-fluid"><div class="well well-small"><h2 class="module-title nav-header">Latest Actions</h2><div class="row-striped">
+						<div class="row-fluid">
+				<div class="span8 truncate">
+					User <a href='http://localhost:8310/administrator/index.php?option=com_users&task=user.edit&id=700'>admin</a> logged in to admin				</div>
+				<div class="span4">
+					<div class="small pull-right hasTooltip" title="Created Date">
+						<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:54					</div>
+				</div>
+			</div>
+					<div class="row-fluid">
+				<div class="span8 truncate">
+					User <a href='http://localhost:8310/administrator/index.php?option=com_users&task=user.edit&id=700'>admin</a> tried to login to admin				</div>
+				<div class="span4">
+					<div class="small pull-right hasTooltip" title="Created Date">
+						<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15					</div>
+				</div>
+			</div>
+					<div class="row-fluid">
+				<div class="span8 truncate">
+					User <a href='http://localhost:8310/administrator/index.php?option=com_users&task=user.edit&id=700'>admin</a> tried to login to admin				</div>
+				<div class="span4">
+					<div class="small pull-right hasTooltip" title="Created Date">
+						<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15					</div>
+				</div>
+			</div>
+					<div class="row-fluid">
+				<div class="span8 truncate">
+					User <a href='http://localhost:8310/administrator/index.php?option=com_users&task=user.edit&id=700'>admin</a> tried to login to admin				</div>
+				<div class="span4">
+					<div class="small pull-right hasTooltip" title="Created Date">
+						<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15					</div>
+				</div>
+			</div>
+					<div class="row-fluid">
+				<div class="span8 truncate">
+					User <a href='http://localhost:8310/administrator/index.php?option=com_users&task=user.edit&id=700'>admin</a> logged in to admin				</div>
+				<div class="span4">
+					<div class="small pull-right hasTooltip" title="Created Date">
+						<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15					</div>
+				</div>
+			</div>
+			</div>
+</div></div><div class="row-fluid"><div class="well well-small"><h2 class="module-title nav-header">Privacy Dashboard</h2><div class="row-striped">
+			<div class="row-fluid">
+			<div class="span12">
+				<div class="alert">There are no requests.</div>
+			</div>
+		</div>
+	</div>
+</div></div><div class="row-fluid"><div class="well well-small"><h2 class="module-title nav-header">Logged-in Users</h2><div class="row-striped">
+			<div class="row-fluid">
+			<div class="span8">
+				
+				<strong class="row-title">
+											<a href="/administrator/index.php?option=com_users&amp;task=user.edit&amp;id=700" class="hasTooltip" title="ID : 700">
+							Administrator</a>
+									</strong>
+
+				<small class="small hasTooltip" title="Location">
+											Administration									</small>
+			</div>
+			<div class="span4">
+				<div class="small pull-right hasTooltip" title="Last Activity">
+					<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15				</div>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span8">
+				
+				<strong class="row-title">
+											<a href="/administrator/index.php?option=com_users&amp;task=user.edit&amp;id=700" class="hasTooltip" title="ID : 700">
+							Administrator</a>
+									</strong>
+
+				<small class="small hasTooltip" title="Location">
+											Administration									</small>
+			</div>
+			<div class="span4">
+				<div class="small pull-right hasTooltip" title="Last Activity">
+					<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:15				</div>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span8">
+				
+				<strong class="row-title">
+											<a href="/administrator/index.php?option=com_users&amp;task=user.edit&amp;id=700" class="hasTooltip" title="ID : 700">
+							Administrator</a>
+									</strong>
+
+				<small class="small hasTooltip" title="Location">
+											Administration									</small>
+			</div>
+			<div class="span4">
+				<div class="small pull-right hasTooltip" title="Last Activity">
+					<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 13:54				</div>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span8">
+				
+				<strong class="row-title">
+											<a href="/administrator/index.php?option=com_users&amp;task=user.edit&amp;id=700" class="hasTooltip" title="ID : 700">
+							Administrator</a>
+									</strong>
+
+				<small class="small hasTooltip" title="Location">
+											Administration									</small>
+			</div>
+			<div class="span4">
+				<div class="small pull-right hasTooltip" title="Last Activity">
+					<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 03:42				</div>
+			</div>
+		</div>
+			<div class="row-fluid">
+			<div class="span8">
+				
+				<strong class="row-title">
+											<a href="/administrator/index.php?option=com_users&amp;task=user.edit&amp;id=700" class="hasTooltip" title="ID : 700">
+							Administrator</a>
+									</strong>
+
+				<small class="small hasTooltip" title="Location">
+											Administration									</small>
+			</div>
+			<div class="span4">
+				<div class="small pull-right hasTooltip" title="Last Activity">
+					<span class="icon-calendar" aria-hidden="true"></span> 2026-06-21 03:46				</div>
+			</div>
+		</div>
+	</div>
+</div></div><div class="row-fluid"><div class="well well-small"><h2 class="module-title nav-header">Popular Articles</h2><div class="row-striped">
+			<div class="row-fluid">
+			<div class="span12">
+				<div class="alert">No Matching Results</div>
+			</div>
+		</div>
+	</div>
+</div></div><div class="row-fluid"><div class="well well-small"><h2 class="module-title nav-header">Recently Added Articles</h2><div class="row-striped">
+			<div class="row-fluid">
+			<div class="span12">
+				<div class="alert">No Matching Results</div>
+			</div>
+		</div>
+	</div>
+</div>		</div>
+	</div>
+</div>
+
+				</div>
+			</div>
+						<!-- End Content -->
+	</section>
+
+	</div>
+	<!-- Begin Status Module -->
+	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<p>
+						Joomla! 3.10.12	&nbsp;&mdash;&nbsp;
+					&copy; 2026 j3Lab				</p>
+
+			</div>
+			<div class="btn-group viewsite"><a href="http://localhost:8310/" target="_blank"><span class="icon-out-2" aria-hidden="true"></span>View Site</a><span class="btn-group separator"></span></div><div class="btn-group loggedin-users"><span class="badge">0</span>Visitors<span class="btn-group separator"></span></div><div class="btn-group backloggedin-users"><span class="badge">7</span>Administrators<span class="btn-group separator"></span></div><div class="btn-group no-unread-messages"><a href="/administrator/index.php?option=com_messages"><span class="badge">0</span>Messages</a><span class="btn-group separator"></span></div><div class="btn-group logout"><a href="/administrator/index.php?option=com_login&amp;task=logout&amp;8fff63dd5c7f846ddb84d5899f4670d3=1"><span class="icon-minus-2" aria-hidden="true"></span>Log out</a></div>
+		</div>
+	</div>
+	<!-- End Status Module -->
+
+</body>
+</html>

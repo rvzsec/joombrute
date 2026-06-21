@@ -1,0 +1,146 @@
+# Tagged release: cross-compile the full binary matrix and attach the
+# artifacts to a GitHub release.
+#
+# Trigger: push a tag matching v*.*.* (e.g. v1.0.0, v1.2.3-rc1).
+#
+#     git tag -a v1.0.0 -m "v1.0.0"
+#     git push origin v1.0.0
+#
+# The job builds five binaries (linux/darwin × amd64/arm64 + windows/amd64),
+# generates SHA256 checksums, and creates a GitHub Release with all of them
+# attached. The release notes are auto-generated from commits since the
+# previous tag.
+
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  # Required to create the release and upload assets.
+  contents: write
+
+jobs:
+  build-matrix:
+    name: build ${{ matrix.goos }}/${{ matrix.goarch }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { goos: linux,   goarch: amd64, ext: ""     }
+          - { goos: linux,   goarch: arm64, ext: ""     }
+          - { goos: darwin,  goarch: amd64, ext: ""     }
+          - { goos: darwin,  goarch: arm64, ext: ""     }
+          - { goos: windows, goarch: amd64, ext: ".exe" }
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          # Need full history so the release-notes generator can diff
+          # against the previous tag.
+          fetch-depth: 0
+
+      - name: setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - name: build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          mkdir -p dist
+          OUT="dist/joombrute-${GOOS}-${GOARCH}${{ matrix.ext }}"
+          # -trimpath strips the build host's filesystem layout from the
+          #   binary (reproducibility + smaller binary).
+          # -ldflags "-s -w" strips DWARF debug + symbol tables.
+          # -X main.version=<tag> stamps the version into the binary so
+          #   `joombrute --version` reflects the release tag.
+          go build \
+            -trimpath \
+            -ldflags "-s -w -X main.version=${GITHUB_REF_NAME}" \
+            -o "$OUT" \
+            ./cmd/joombrute
+          ls -la "$OUT"
+
+      - name: upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: joombrute-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/*
+          retention-days: 7
+
+  release:
+    name: github release
+    needs: build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: generate checksums
+        run: |
+          cd dist
+          sha256sum joombrute-* | tee SHA256SUMS
+          ls -la
+
+      - name: create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          # Mark pre-releases (rc / beta / alpha tags) as such automatically.
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            dist/joombrute-linux-amd64
+            dist/joombrute-linux-arm64
+            dist/joombrute-darwin-amd64
+            dist/joombrute-darwin-arm64
+            dist/joombrute-windows-amd64.exe
+            dist/SHA256SUMS
+          body: |
+            ## Install
+
+            ### Go install
+            ```bash
+            go install github.com/rvzsec/joombrute/cmd/joombrute@${{ github.ref_name }}
+            ```
+
+            ### Pre-built binary
+            ```bash
+            # Linux amd64
+            curl -L -o joombrute https://github.com/rvzsec/joombrute/releases/download/${{ github.ref_name }}/joombrute-linux-amd64
+            chmod +x joombrute
+
+            # macOS arm64 (Apple Silicon)
+            curl -L -o joombrute https://github.com/rvzsec/joombrute/releases/download/${{ github.ref_name }}/joombrute-darwin-arm64
+            chmod +x joombrute
+            ```
+
+            Verify integrity:
+            ```bash
+            curl -LO https://github.com/rvzsec/joombrute/releases/download/${{ github.ref_name }}/SHA256SUMS
+            sha256sum -c SHA256SUMS --ignore-missing
+            ```
+
+            ---
+
+            Authorized use only. See LICENSE.

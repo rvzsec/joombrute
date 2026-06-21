@@ -1,0 +1,109 @@
+services:
+  # Joomla 3.10 - last J3 release, target for legacy detection path
+  joomla3-db:
+    image: mysql:5.7
+    container_name: joombrute-j3-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: joomla
+      MYSQL_USER: joomla
+      MYSQL_PASSWORD: joomlapass
+    networks:
+ - joombrute
+
+  joomla3:
+    image: joomla:3.10
+    container_name: joombrute-j3
+    restart: unless-stopped
+    depends_on:
+ - joomla3-db
+    environment:
+      JOOMLA_DB_HOST: joomla3-db
+      JOOMLA_DB_USER: joomla
+      JOOMLA_DB_PASSWORD: joomlapass
+      JOOMLA_DB_NAME: joomla
+      JOOMLA_SITE_NAME: J3Lab
+      JOOMLA_ADMIN_USER: Administrator
+      JOOMLA_ADMIN_USERNAME: admin
+      JOOMLA_ADMIN_PASSWORD: admin123
+      JOOMLA_ADMIN_EMAIL: admin@j3.local
+    ports:
+ - "8310:80"
+    networks:
+ - joombrute
+
+  # Joomla 4.2.7 - vulnerable to CVE-2023-23752 (API info disclosure)
+  # and CVE-2023-23755 (MFA no rate limit on captive screen)
+  joomla4-db:
+    image: mysql:8.0
+    container_name: joombrute-j4-db
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: joomla
+      MYSQL_USER: joomla
+      MYSQL_PASSWORD: joomlapass_j4
+    networks:
+ - joombrute
+
+  joomla4:
+    image: joomla:4.2.7-php8.1-apache
+    container_name: joombrute-j4
+    restart: unless-stopped
+    depends_on:
+ - joomla4-db
+    environment:
+      JOOMLA_DB_HOST: joomla4-db
+      JOOMLA_DB_USER: joomla
+      JOOMLA_DB_PASSWORD: joomlapass_j4
+      JOOMLA_DB_NAME: joomla
+      JOOMLA_SITE_NAME: J4Lab
+      JOOMLA_ADMIN_USER: Administrator
+      JOOMLA_ADMIN_USERNAME: admin
+      JOOMLA_ADMIN_PASSWORD: admin123
+      JOOMLA_ADMIN_EMAIL: admin@j4.local
+    ports:
+ - "8420:80"
+    networks:
+ - joombrute
+
+  # Joomla 5 - current major, target for modern detection + MFA-bypass probe
+  joomla5-db:
+    image: mysql:8.0
+    container_name: joombrute-j5-db
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: joomla
+      MYSQL_USER: joomla
+      MYSQL_PASSWORD: joomlapass_j5
+    networks:
+ - joombrute
+
+  joomla5:
+    image: joomla:5-php8.2-apache
+    container_name: joombrute-j5
+    restart: unless-stopped
+    depends_on:
+ - joomla5-db
+    environment:
+      JOOMLA_DB_HOST: joomla5-db
+      JOOMLA_DB_USER: joomla
+      JOOMLA_DB_PASSWORD: joomlapass_j5
+      JOOMLA_DB_NAME: joomla
+      JOOMLA_SITE_NAME: J5Lab
+      JOOMLA_ADMIN_USER: Administrator
+      JOOMLA_ADMIN_USERNAME: admin
+      JOOMLA_ADMIN_PASSWORD: admin123
+      JOOMLA_ADMIN_EMAIL: admin@j5.local
+    ports:
+ - "8500:80"
+    networks:
+ - joombrute
+
+networks:
+  joombrute:
+    driver: bridge
