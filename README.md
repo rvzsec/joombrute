@@ -1,6 +1,6 @@
 <div align="center">
   <img src="https://www.zyenra.com/assets/img/joombrute.png" width="100" alt="joombrute"><br>
-  <h3>joombrute</h3>
+  <h3>JoomBrute</h3>
   <p>Modern Joomla auth-attack toolkit<br>J3 / J4 / J5 - CVE-2023-23752 · CVE-2023-23755 · CVE-2025-25227</p>
 </div>
 
